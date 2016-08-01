@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+  <title>Angular's Hello World</title>
+  <script src="/lib/angular.js"></script>
+  <script type="text/javascript">
+    // in first file
+    angular
+    .module("app", [])
+    .controller("ctrl", function($scope) {
+      $scope.personsName = "Rick";
+      $scope.privateAttribute = "Not seen by directive";
+    })
+    .directive("exampleDirective", function(){
+      return {
+        scope: {
+          personToGreet: "="
+        },
+        template: "<p>Hello, {{ personToGreet }}. {{ privateAttribute || 'no' }}</p>"
+      }
+    });
+  </script>
+</head>
+<body ng-controller="ctrl">
+  <input ng-model="personsName">
+  <input type="text" ng-model="ssn">
+  <example-directive person-to-greet="personsName"></example-directive>
+  <p>Experiments:</p>
+  <ul>
+    <li>Compare ngModel value to directive template value. </li>
+    <li>Inspect the directive element's scope object.</li>
+    <li>Mutate the value of directive scope and call $digest (won't work)</li>
+    <li>Mutate the value of directive scope and call $apply (will work- why?)</li>
+  </ul>
+</body>
+</html>

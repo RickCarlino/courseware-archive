@@ -1,0 +1,40 @@
+<html>
+	<head>
+	</head>
+	<body ng-app="myApp">
+		<div ng-controller="myCtrl">
+			<p>
+				Update on blur:
+			</p>
+			<input type="text"
+			       ng-model="blurry"
+			       ng-model-options="{ updateOn: 'blur' }">
+		  </input>
+		  {{ blurry }}
+		  <p>
+		  	just Debounce every 1300ms:
+		  </p>
+			<input type="text"
+			       ng-model="slower"
+			       ng-model-options="{ debounce: 1300 }">
+		  </input>
+		  {{ slower }}
+
+		  <p>
+		  	"Debounce" every 800ms (or instantly on blur):
+		  </p>
+			<input type="text"
+			       ng-model="slow"
+			       ng-model-options="{ debounce:  { 'default': 800, 'blur': 0 } }">
+		  </input>
+		  {{ slow }}
+		</div>
+		<script src="/lib/angular.js">
+		</script>
+		<script>
+			var app = angular
+			  .module("myApp", [])
+        .controller("myCtrl", function($scope){});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/lib/jasmine.css">
+    <script src="/lib/jasmine.js"></script>
+    <script src="/lib/jasmine-html.js"></script>
+    <script src="/lib/jasmine-boot.js"></script>
+
+    <script>
+      // Our "timer" that we will test.
+      function twoSecondTimer(callBack) { setTimeout(callBack, 2000); }
+
+      describe("async testing", function() {
+        it("pauses for 2 seconds", function(done) {
+
+            var startTime = (new Date()).getTime();
+            // Run the (asynchronous) timer.
+            twoSecondTimer(function(){
+              // Calculate results
+              var endTime = (new Date()).getTime();
+              var seconds = (endTime - startTime)/1000;
+              // Do expectations against results
+              expect(seconds).toBeGreaterThan(1.99);
+              done();
+            });
+          });
+
+        it("times out if you don't call done()", function(done) {
+          // pending("This test demonstrates a timeout");
+          expect(true).toBe(true); // To avoid "no expectation" errors
+          done();
+        }, 100);
+
+      });
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
+

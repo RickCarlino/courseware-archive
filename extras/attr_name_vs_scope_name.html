@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body ng-app="myApp">
+  <div ng-controller="myController">
+    Try this:
+    <ul>
+      <li>
+        pass in an object via an attribute called "collection"
+      </li>
+      <li>
+        But inside the directive scope, refer to it as "specialCollection"
+      </li>
+    </ul>
+    Directive Renders this:
+    <br>
+    <just-a-directive that-collection="objects">
+  </div>
+  <script src="bower_components/angular/angular.js"></script>
+  <script>
+    var myApp = angular.module("myApp", []);
+
+    myApp.controller("myController", ["$scope", function($scope){
+      $scope.objects = [{name: 'rick'}, {name: 'Joe'}, {name: 'Jack'}, {name: 'John'}];
+    }]);
+
+    myApp.directive("justADirective", function(){
+      return {
+        template: "<pre> {{ thisCollection | json}} </pre>",
+        restrict: "E",
+        scope: {
+          thisCollection: '=thatCollection'
+        }
+      }
+    });
+
+  </script>
+</body>
+</html>

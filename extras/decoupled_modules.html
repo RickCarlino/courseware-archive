@@ -1,0 +1,20 @@
+<html>
+  <head>
+  </head>
+  <body ng-app="xyzcorpApp" ng-strict-di>
+    <div ng-controller="main">
+
+      {{ greeting }}
+      <span></span>
+
+      <!-- Form is NOT defined in main app -->
+      <xyzcorp-example-form>
+      </xyzcorp-example-form>
+    </div>
+    <script src="/lib/angular.js"></script>
+    <!-- shared form directives  -->
+    <script src="xyzcorp_forms.js"></script>
+    <!-- main app module -->
+    <script src="xyzcorp_app.js"></script>
+  </body>
+</html>

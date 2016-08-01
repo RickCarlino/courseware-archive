@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+  <title>Angular's Hello World</title>
+  <script src="/lib/angular.js"></script>
+  <script type="text/javascript">
+    angular
+    .module("app", [])
+    .controller("ctrl", function($scope) {
+      $scope.howImFeelingToday = "Great!";
+    })
+    .directive("blogArticle", function(){
+      return {
+        transclude: true,
+        scope: {
+          headline: "@",
+          author: "@"
+        },
+        template: "<div>" +
+                  "<h1>{{ headline }}</h1>" +
+                  "<p> By: {{ author }}</p>" +
+                  "<hr />" +
+                  "<p ng-transclude>   </p></div>"
+      }
+    })
+  </script>
+</head>
+<body ng-controller="ctrl">
+
+
+  <blog-article author="Rick Carlino"
+                headline="Teaching Angular to Inquisitive Students">
+  Today was another fun day as an Angular instructor. I taught my students about <strong>TRANSCLUSION</strong>. Have you ever used it?
+  {{ howImFeelingToday }}
+  </blog-article>
+
+
+
+
+  <blog-article author="Rick Carlino"
+                headline="Hello, world!">
+  It's nice to meet you.
+  </blog-article>
+</body>
+</html>

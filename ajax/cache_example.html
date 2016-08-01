@@ -1,0 +1,37 @@
+<html>
+  <head>
+  </head>
+  <body ng-app="myApp">
+    <div ng-controller="myCtrl">
+      <h1>AJAX Employee List</h1>
+      <p>Take a look at the <b>Network Inspector Panel</b></p>
+      <button ng-click="reloadData()">Fetch Data</button>
+      <button ng-click="reloadCache()">Clear Cache</button>
+      <pre>{{ cache.info() | json }}</pre>
+      <ul>
+        <li ng-repeat="user in users">
+          {{ user.name }}
+        </li>
+      </ul>
+    </div>
+    <script src="/lib/angular.js"></script>
+    <script>
+      angular
+        .module("myApp", [])
+        .controller("myCtrl", function($scope, $cacheFactory, $http) {
+          var myCache = $scope.cache = $cacheFactory("custom-cache-id");
+          ($scope.reloadData = function() {
+            $http({
+                method: 'GET',
+                url: 'http://jsonplaceholder.typicode.com/users',
+                cache: myCache
+              })
+              .then(function(resp) {
+                $scope.users = resp.data
+              });
+          })();
+          $scope.reloadCache = $scope.cache.removeAll;
+        });
+    </script>
+  </body>
+</html>

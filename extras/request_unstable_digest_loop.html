@@ -1,0 +1,21 @@
+
+	<head>
+	</head>
+	<body ng-app="myApp">
+		<div ng-controller="myCtrl">
+		</div>
+		<script src="/lib/angular.js">
+		</script>
+		<script>
+			var app = angular
+			  .module("myApp", [])
+        .controller("myCtrl", function($scope){
+        	$scope.val = 1
+        	// This watch is non-idempotent and therefore
+        	// the digest loop never stabilizes.
+    			$scope.$watch(function(){ return $scope.val },
+	          function(val){ $scope.val++ })
+        })
+		</script>
+	</body>
+</html>

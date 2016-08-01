@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body ng-app="myApp">
+  <div ng-controller="myController">
+    <people-list people="collection | filter:'rick'">
+  </div>
+  <script src="bower_components/angular/angular.js"></script>
+  <script>
+    var myApp = angular.module("myApp", []);
+
+    myApp.controller("myController", ["$scope", function($scope){
+      $scope.working = true;
+      $scope.collection = [{name: 'rick'}, {name: 'Joe'}, {name: 'Jack'}, {name: 'John'}]
+    }])
+    
+    myApp.directive("peopleList", function(){
+      return {
+        template: "<pre> {{ people() | json}} </pre>",
+        restrict: "E",
+        scope: {
+          people: '&'
+        }
+      }
+    })
+  </script>
+</body>
+</html>

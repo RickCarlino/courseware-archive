@@ -1,0 +1,47 @@
+<html>
+	<head>
+	</head>
+	<body ng-app="myApp">
+		<div>
+			<state state-name="Illinois">
+			  <city city-name="Naperville"></city>
+			  <city city-name="Chicago"></city>
+			</state>
+<!-- 			<state state-name="Arizona">
+			  <city city-name="Phoenix"></city>
+			  <city city-name="Mesa"></city>
+			</state> -->
+		</div>
+		<script src="/lib/angular.js">
+		</script>
+		<script>
+			var app = angular
+			    .module("myApp", [])
+			    .directive("state", function() {
+			        return {
+			            scope: {
+			                stateName: "@"
+			            },
+			            controller: function($scope) {
+			                this.registerCity = function(city) {
+			                    city.stateName = $scope.stateName;
+			                };
+			            }
+			        }
+			    })
+			    .directive("city", function() {
+			        return {
+			            require: '^^state',
+			            scope: {
+			                cityName: "@"
+			            },
+			            link: function(scope, iElem, attrs, stateCtrl) {
+			                stateCtrl.registerCity(scope)
+			            },
+			            template: "<p>{{ cityName }}, {{ stateName }}"
+			        }
+			    });
+
+		</script>
+	</body>
+</html>

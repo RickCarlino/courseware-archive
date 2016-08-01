@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body ng-app="myApp">
+  <div ng-controller="myController">
+    <p>
+      The next directive has content inside of it.
+    </p>
+    <br>
+    <transcluder>
+      {{ name }}
+      The *directive* put this content into an H1, not the user.
+    </transcluder>
+    <p>
+      THings to try next:
+    </p>
+    <ul>
+      <li> Try accessing the directive scope (hint: you can't)</li>
+      <li> Try adding curly brace templates in the wrapped content</li>
+    </ul>
+  </div>
+  <script src="bower_components/angular/angular.js"></script>
+  <script>
+    var myApp = angular.module("myApp", []);
+    myApp.controller("myController", ["$scope", function($scope){
+      $scope.name = "Parent";
+    }]);
+
+    myApp.directive("transcluder", function(){
+      return {
+        template: "<h1 ng-transclude></h1>",
+        transclude: true,
+        restrict: "E",
+        scope: {},
+        link: function(scope, iElem, attrs) {
+          scope.name = "Child (in directive)"
+          // debugger;
+        }
+      }
+    });
+
+  </script>
+</body>
+</html>

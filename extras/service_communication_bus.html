@@ -1,0 +1,51 @@
+<html>
+	<head>
+    <style type="text/css">
+      .red {
+        margin: 3px;
+        padding: 3px;
+        border: 1px solid red;
+      }
+      .blue {
+        margin: 3px;
+        padding: 3px;
+        border: 1px solid blue;
+      }
+    </style>
+	</head>
+	<body ng-app="myApp">
+		<div class="red" ng-controller="red">
+      <h1>Add Message</h1>
+      <form ng-submit="addMsg()">
+        <input ng-model="newMsg">
+      </form>
+    </div>
+
+    <div class="blue" ng-controller="blue">
+      <ul>
+        <li ng-repeat="message in messages">
+          {{ message }}
+        </li>
+      </ul>
+    </div>
+
+    <script src="/lib/angular.js"></script>
+		<script>
+			var app = angular
+			  .module("myApp", [])
+        .service("Message", function() {
+          this.all = ["hello", "world"];
+          this.send = function(msg) { this.all.push(msg) };
+        })
+        .controller("red", function($scope, Message) {
+          $scope.addMsg = function() {
+            Message.send($scope.newMsg);
+            $scope.newMsg = "";
+          }
+        })
+        .controller("blue", function($scope, Message) {
+          $scope.messages = Message.all;
+        })
+		</script>
+	</body>
+</html>

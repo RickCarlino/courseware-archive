@@ -1,0 +1,102 @@
+<html>
+  <head>
+  </head>
+  <body ng-app="myApp">
+    <div ng-controller="myCtrl">
+      <h1>Intercepted AJAX Employee List</h1>
+      <p>Sometimes it fails (401). Sometimes it works.</p>
+      <h2>Ideas:</h2>
+      <ul>
+        <li>
+          Create an "Auth" service that has a "login(uname, pw)" method and
+          returns a promise.
+        </li>
+      </ul>
+      <p>Reloaded {{ count }} times.</p>
+      <button ng-click="reloadData()">Refresh List (might fail)</button>
+      <ul>
+        <li ng-repeat="user in users">
+          {{ user.email }}
+        </li>
+      </ul>
+    </div>
+    <script src="/lib/angular.js"></script>
+    <script>
+      angular
+        .module("myApp", [])
+        .config(function($httpProvider){
+          $httpProvider.interceptors.push("myInterceptor");
+        })
+        .factory("myInterceptor", function($location, $q){
+          return {
+            responseError: function (resp) {
+              var defer = $q.defer();
+
+              // You could also "resolve" if you want to "recover".
+              // Eg: Give the user stub data if server fails, etc...
+              // Good read:
+              // http://www.webdeveasy.com
+              //                 /interceptors-in-angularjs-and-useful-examples/
+              // defer.reject(resp);
+
+              // Commented out, but you can try this to "recover";
+              // It will replace the error message with "good" data so that the
+              // user of $http never sees the error at all.
+
+              var fakeData = {
+                data: [ {email: "Messy error swallowing."} ],
+                status: 200,
+                statusText: "OK"
+              };
+              var newOkResponse = Object.assign(resp, fakeData);
+              defer.resolve(newOkResponse)
+
+
+
+              if (resp.status == 401) {
+                alert("Token expired.\nPlease login.\n\nRedirecting...");
+                // Pretend that this app has a login page (using ngRoute).
+                $location.path("/login");
+              }
+              // Return a promise. Give ability to recover
+              // or fail (resolve / reject)
+              return defer.promise;
+            },
+            request: function(config) {
+              // Just a theoretical example...
+              config.headers["Authorization"] = "bearer " + AuthService.token
+              return config;
+            }
+          }
+        })
+        .controller("myCtrl", function($scope, $http) {
+          $scope.count = 0;
+          ($scope.reloadData = function() {
+            $scope.count++
+            var urls = [
+              // Always fails
+              "http://httpstat.us/401",
+              // Always succeeds
+              "http://jsonplaceholder.typicode.com/users"
+            ];
+            $http({
+              method: "GET",
+              url: "http://httpstat.us/401",
+              justKidding: true
+            })
+            // Pick a random URL to simulate occasional failure.
+            var url  = urls[Math.round(Math.random())];
+            $http
+              .get(url)
+              .then(function(resp) {
+                $scope.users = resp.data;
+              }, function(error) {
+                // Empty old data so students don't get confused.
+                $scope.users = [];
+              });
+          })();
+        });
+    </script>
+  </body>
+</html>
+

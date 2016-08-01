@@ -1,0 +1,24 @@
+<html>
+  <head>
+  </head>
+  <body ng-app="myApp">
+    <div ng-controller="myCtrl">
+      {{ truth }}
+    </div>
+    <script src="/lib/angular.js"></script>
+
+    <script src="/angular-messages.js">
+    </script>
+
+    <script src="/angular-resource.js">
+    </script>
+    <script>
+      var app = angular
+        .module("myApp", ["ngMessages", "ngResource"])
+        .controller("myCtrl", function($scope){
+          $scope.truth = "2 + 2 = 4"
+        });
+    </script>
+  </body>
+</html>
+

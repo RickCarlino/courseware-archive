@@ -1,0 +1,39 @@
+<html>
+  <head>
+  </head>
+  <body ng-app="myApp">
+    <div ng-controller="myCtrl">
+      <ul>
+        <li ng-repeat="empl in employees">
+          <button ng-click="destroy(empl)">X</button>
+          {{ empl.name }}
+        </li>
+      </ul>
+    </div>
+    <script src="/lib/angular.js"></script>
+    <script src="/angular-messages.js"></script>
+    <script src="/angular-resource.js"></script>
+    <script>
+      var app = angular
+        .module("myApp", ["ngMessages", "ngResource"])
+        .controller("myCtrl", function($scope, $resource) {
+          // If the parameter value is prefixed with @ then the value for that
+          // parameter will be extracted from
+          // the corresponding property on the data objec
+          var Employee = $resource('http://jsonplaceholder.typicode.com/users/:id', {id: '@id'});
+          $scope.destroy = function(empl) {
+            empl
+              .$delete({id: empl.id})
+              .then(function(){
+                var index = $scope.employees.indexOf(empl);
+                $scope.employees.splice(index, 1);
+              })
+          }
+          $scope.employees = Employee.query( function(data, headers) {
+            // debugger; //For fun!
+          });
+        })
+    </script>
+  </body>
+</html>
+

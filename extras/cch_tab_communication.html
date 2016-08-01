@@ -1,0 +1,24 @@
+<html ng-app="myMod">
+  <head>
+    <title></title>
+    <script type="text/javascript" src="/lib/angular.1.5.js"></script>
+    <script type="text/javascript" src="cch_tab_communication.js"></script>
+  </head>
+  <body ng-controller="myCtrl">
+    <p>
+      <strong>TIPS:</strong>
+      <ol>
+        <li>Open this window in a seperate tab.</li>
+        <li>Try adding new items</li>
+        <li>Look at the old tab.</li>
+        <li>Add Iframe "relay" for cross domain access.</li>
+      </ol>
+    </p>
+    <form ng-submit="addTodo()">
+      <input ng-model="myTodo" placeholder="Press enter to add item.">
+    </form>
+    <ul>
+      <li ng-repeat="todo in todos track by $index"> {{ todo.value }} </li>
+    </ul>
+  </body>
+</html>

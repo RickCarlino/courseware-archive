@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+  <title>Directives</title>
+</head>
+<body>
+<div ng-controller="myCtrl">
+  <xyzcorp-easy-dir></xyzcorp-easy-dir>
+</div>
+
+<script src="bower_components/angular/angular.js"></script>
+<script>
+  var app = angular.module("myApp", []);
+  app.controller("myCtrl", function($scope) {
+    $scope.hello="hello";
+  });
+  app.directive("xyzcorpEasyDir", function(){
+    return {
+      templateUrl: "simple_template.html",
+      restrict: "E",
+      scope: {
+        hello: "="
+      }
+
+    };
+  });
+</script>
+</body>
+</html>

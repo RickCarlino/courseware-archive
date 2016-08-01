@@ -1,0 +1,2 @@
+ - Auth example (just use a "coin toss" algo).
+ - localStorage

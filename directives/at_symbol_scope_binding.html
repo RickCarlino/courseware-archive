@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+  <title>Angular's Hello World</title>
+  <script src="/lib/angular.js"></script>
+  <script type="text/javascript">
+    angular
+      .module("formsLib", [])
+      .directive("exampleDirective", function(){
+            return {
+              scope: {
+                personToGreet: "@"
+              },
+              template: "<p>Hello, {{ personToGreet }}</p>",
+              link: function(scope, el, attrs) {
+                debugger;
+              }
+            }
+          });
+    angular
+    .module("app", ["formsLib"])
+    .controller("ctrl", function($scope) {
+      $scope.personsName = "Rick Carlino";
+      $scope.privateAttribute = "Not seen by directive";
+    });
+
+  </script>
+</head>
+<body ng-controller="ctrl">
+  <input ng-model="personsName">
+
+  <example-directive person-to-greet="Mr. {{ personsName }}.">
+  </example-directive>
+  <p>Experiments:</p>
+  <ul>
+    <li>Inspect the directive element's scope object.</li>
+    <li>Inspect the controller element's scope object.</li>
+  </ul>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<html>
+  <head>
+  </head>
+  <body ng-app="myApp">
+    <div ng-controller="myCtrl">
+      <h1>Intercepted AJAX Employee List</h1>
+      <p>Adds a "formalName" attribute to all inbound intercepted JSON data.</p>
+      <button ng-click="reloadData()">Fetch Data</button>
+      <ul>
+        <li ng-repeat="movie in movies">
+          {{ movie.betterTitle }}
+        </li>
+      </ul>
+    </div>
+    <script src="/lib/angular.js"></script>
+    <script>
+      angular
+        .module("myApp", [])
+        .config(function($httpProvider){
+          $httpProvider.interceptors.push("responseInterceptor");
+        })
+        .factory("responseInterceptor", function($location){
+          return {
+            // Decorate inbound data with a "formalName" attribute;
+            // REAL WORLD IDEA: Redirect 401 to login page.
+            response: function(resp) {
+              resp.data.forEach(function(movie){
+                movie.betterTitle = "The exceptional film '" + movie.title + "'";
+              })
+              return resp;
+            },
+            request: function(config) {
+              // Add a fake auth token to all outbound HTTP.
+              // See network inspector for proof.
+              config.headers["x-auth-token"] = "A1IX345M---";
+              return config;
+            }
+          }
+        })
+        .controller("myCtrl", function($scope, $http) {
+          ($scope.reloadData = function() {
+            $http
+              .get('/movies.json')
+              .then(function(resp) { $scope.movies = resp.data; });
+          })();
+        });
+    </script>
+  </body>
+</html>
+

@@ -1,0 +1,49 @@
+
+	<head>
+	</head>
+	<body ng-app="myApp">
+		<div ng-controller="myCtrl">
+		  <broken-counter>
+		  </broken-counter>
+
+		  <working-counter>
+		  </working-counter>
+		</div>
+		<script src="/lib/angular.js">
+		</script>
+		<script>
+			var app = angular
+			  .module("myApp", [])
+        .controller("myCtrl", function($scope){})
+        .directive("brokenCounter", function(){
+        	return {
+          	template: "<button>Count: {{ counter.val }}</button>",
+        		link: function(scope, el, attrs){
+        			scope.counter = {val: 1};
+        			el.on("click", function(event){
+								// This will not fire because we're
+								// circumventing the digest loop!
+        				scope.counter.val += 1;
+        			});
+        		}
+        	}
+        })
+        .directive("workingCounter", function(){
+          return {
+          	scope: {},
+          	template: "<button>Count: {{ counter.val }}</button>",
+        		link: function(scope, el, attrs){
+        			scope.counter = {val: 1};
+        			scope.$watch(function(){ return scope.counter.val },
+        				          function(val){ console.log(val)})
+        			el.on("click", function(event){
+        				scope.$apply(function(){
+        					scope.counter.val += 1;
+        				});
+        			});
+        		}
+          }
+        });
+		</script>
+	</body>
+</html>

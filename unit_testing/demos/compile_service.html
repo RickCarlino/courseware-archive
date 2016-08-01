@@ -1,0 +1,46 @@
+<html>
+  <head>
+  </head>
+  <body ng-app="myApp">
+    <div ng-controller="myCtrl">
+      <h1>Angular Raw Templating</h1>
+      <div id="drop-zone">
+      </div>
+    </div>
+
+    <script src="/lib/angular.js"></script>
+
+    <script>
+      var app = angular
+        .module("myApp", [])
+        .controller("myCtrl", function($scope, $compile){
+
+          // Real world templates and linking functions:
+          // http://handlebarsjs.com/
+          // (Seen mostly in BackBone / JQuery projects)
+
+          // DONT DO THIS OUTSIDE OF CLASS.
+          // NEVER MANIPULATE THE DOM IN A CONTROLLER
+          debugger;
+
+          var new_scope = $scope.$new();
+
+          new_scope.exp = "Inserted into the DOM using $compile";
+
+          // Step 2: pre-compile the template
+          var linkFn = $compile('<div>{{ exp }}</div>');
+
+          // Step 3: link the compiled template with the scope.
+          var element = linkFn(new_scope);
+
+          // Append to DOM
+          var targetDOMnode = angular.element(document.querySelector("#drop-zone"));
+          targetDOMnode.append(element);
+
+          // Now let's take a look.
+          debugger;
+        });
+    </script>
+  </body>
+</html>
+

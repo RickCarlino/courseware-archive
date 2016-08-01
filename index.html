@@ -1,0 +1,33 @@
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="/lib/style1.css">
+  <script src="lib/remark2.js"></script>
+
+</head>
+<body>
+
+<script type="text/javascript">
+  var ul = document.createElement("ul");
+  function appendSlide(slide){
+    var link = Object.assign(document.createElement("a"), {
+      target: "_blank",
+      href: "viewer.html#" + slide,
+      innerText: slide
+    });
+    var li = document.createElement("li");
+    li.appendChild(link);
+    ul.appendChild(li);
+  };
+
+  fetch("manuscript/book.txt")
+    .then(resp   => resp.text())
+    .then(function(text) {
+      var lines = text.split("\n");
+      var slideNames = lines.map(line => line.replace(".md", ""));
+      slideNames.forEach(appendSlide);
+      document.body.appendChild(ul);
+    });
+
+</script>
+</body>
+</html>

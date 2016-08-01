@@ -1,0 +1,26 @@
+<html ng-app="app">
+<head>
+  <title></title>
+  <script type="text/javascript" src="/lib/angular.1.5.js"></script>
+  <script type="text/javascript">
+    angular
+      .module("app", [])
+      .controller("ctrl", function($scope) {
+        $scope.users = [
+            {name: "Rick"},
+            {name: "Sally"},
+            {name: "John"},
+            {name: "Sarah"}            
+        ]
+      });
+  </script>
+</head>
+<body ng-controller="ctrl">
+   <select ng-model="selection"
+           ng-options="user.name for user in users"
+           multiple="true"></select>
+   <p>
+       <pre>{{ (selection || "none") | json }}</pre>
+   </p>
+</body>
+</html>

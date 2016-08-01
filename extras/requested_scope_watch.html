@@ -1,0 +1,35 @@
+<html>
+	<head>
+	</head>
+	<body ng-app="myApp">
+		<div ng-controller="myCtrl">
+			<p>
+				Watch with a string: ({{ stringWatch }})
+			</p>
+			<input type="text" ng-model="stringWatch">
+			<p>
+				Watch with a function: ({{ expressionWatch }})
+			</p>
+			<input type="text" ng-model="expressionWatch">
+		</div>
+		<script src="/lib/angular.js">
+		</script>
+		<script>
+			var app = angular
+			  .module("myApp", [])
+        .controller("myCtrl", function($scope){
+
+				$scope.$watch("stringWatch", function(newval, oldval) {
+					console.log("New value is: " + newval)
+				});
+
+				$scope.$watch(
+					function() { return $scope.expressionWatch },
+					function(newval, oldval) {
+					console.log("New value is: " + newval)
+				});
+
+			});
+		</script>
+	</body>
+</html>

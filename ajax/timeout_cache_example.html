@@ -1,0 +1,37 @@
+<html>
+  <head>
+  </head>
+  <body ng-app="myApp">
+    <div ng-controller="myCtrl">
+      <h1>AJAX Employee List</h1>
+      <p>Invalidate the cache <b>every 4 seconds</b></p>
+      <button ng-click="reloadData()">Fetch Data</button>
+      <pre>{{ cache.info() | json }}</pre>
+      <ul>
+        <li ng-repeat="user in users">
+          {{ user.title }}
+        </li>
+      </ul>
+    </div>
+    <script src="/lib/angular.js"></script>
+    <script>
+      angular
+        .module("myApp", [])
+        .controller("myCtrl", function($scope, $cacheFactory, $http, $interval) {
+          var myCache = $scope.cache = $cacheFactory("custom-cache-id");
+          ($scope.reloadData = function() {
+            $http({
+                method: 'GET',
+                url: '/movies.json',
+                cache: myCache
+              })
+              .then(function(resp) {
+                $scope.users = resp.data
+              });
+          })();
+          $interval($scope.cache.removeAll, 4000);
+        });
+    </script>
+  </body>
+</html>
+

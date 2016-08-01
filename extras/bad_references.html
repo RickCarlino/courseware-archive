@@ -1,0 +1,33 @@
+<html>
+  <head>
+  </head>
+  <body ng-app="myApp">
+    <div ng-controller="myCtrl">
+      My list in the parent : <pre>{{ list | json }}</pre>
+      My ul/li list:
+      <button ng-click="add()">
+        More Bad References, Please!
+      </button>
+      <ul>
+        <li ng-repeat="number in list track by $index">
+          <input ng-model="number.value">{{ number.value }}
+        </li>
+      </ul>
+    </div>
+    <script src="/lib/angular.js"></script>
+    <script>
+      var app = angular
+        .module("myApp", [])
+        .controller("myCtrl", function($scope){
+          $scope.list = [
+            { value: ":(" }
+            ];
+
+          $scope.add = function() {
+            $scope.list.push({ value: ":(" })
+          };
+        });
+    </script>
+  </body>
+</html>
+

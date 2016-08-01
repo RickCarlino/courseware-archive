@@ -1,0 +1,29 @@
+<html ng-app="app">
+
+<head>
+    <script type="text/javascript" src="/lib/angular.1.5.js"></script>
+    <script type="text/javascript" src="promise_example.js"></script>
+</head>
+
+<body ng-controller="MainCtrl">
+    <div ng-controller="FooCtrl">
+        loaded.
+    </div>
+    <input ng-model="name" placeholder="Name">
+    <input ng-model="duration" placeholder="Duration">
+    <button ng-click="addTimer(name, duration)">Add Timer</button>
+    <h3>Timers</h3>
+    <dl>
+        <ul ng-repeat="(name, status) in timers">
+            <li>
+                <button ng-click="removeTimer(name)">
+                    Cancel '{{ name }}'
+                </button>
+                {{ status }}
+            </li>
+        </ul>
+    </dl>
+
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/lib/bootstrap.css" rel="stylesheet" media="screen">
+    <script src="/lib/angular.js"></script>
+    <script src="/lib/angular-animate.js"></script>
+    <script src="/lib/ui-bootstrap.js"></script>
+    <script>
+      angular
+        .module("app", ['ui.bootstrap'])
+        .controller("controller", function($scope, $uibModal){
+          $scope.openModal = function() {
+            $uibModal.open({
+              template: "<div class=modal-header><h4 class=modal-title>Modal Header</h4></div><div class=modal-body><p>This can't be undone.</div><div class=modal-footer><p>Are you sure?</p><button ng-click=yes() class='btn btn-danger'>Yes</button> <button ng-click=no() class=btn>No</button></div>",
+              controller: "myModalCtrl"
+            });
+          }
+        })
+        .controller("myModalCtrl", function($scope, $uibModalInstance){
+          $scope.yes = function(){
+            alert("INSERT CUSTOM BUSINESS LOGIC HERE.");
+            $uibModalInstance.close();
+          };
+          $scope.no = $uibModalInstance.close;
+        })
+
+    </script>
+  </head>
+  <body ng-controller="controller">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Modal Example</h1>
+          <button ng-click="openModal()" class="btn btn-large btn-danger">
+            Destroy Resource
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

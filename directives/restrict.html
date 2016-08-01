@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+  <title>Angular's Hello World</title>
+  <script src="/lib/angular.js"></script>
+  <script type="text/javascript">
+    angular
+    .module("app", [])
+    .controller("ctrl", function($scope) { $scope.hello = "world"; })
+    .directive("restrictE", function(){
+      return {
+        restrict: "E",
+        template: "<p>This can *only* be used as an ELEMENT</p>"
+      }
+    })
+    .directive("restrictA", function(){
+      return {
+        restrict: "A",
+        template: "<p>This can *only* be used as an ATTRIBUTE</p>"
+      }
+    })
+    .directive("eitherOr", function(){
+      return {
+        restrict: "AE",
+        template: "<p>This can be used as EITHER</p>"
+      }
+    });
+  </script>
+</head>
+<body ng-controller="ctrl">
+  <xmp><restrict-e></restrict-e></xmp>
+  <restrict-e></restrict-e>
+  <div restrict-e>Did not get processed as a template!</div>
+
+
+  <xmp><div restrict-a></div></xmp>
+  <div restrict-a></div>
+  <restrict-a></restrict-a>
+
+  <xmp><either-or></either-or></xmp>
+  <either-or></either-or>
+
+  <xmp><div either-or></either-or></xmp>
+  <div either-or></div>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<html ng-app="myMod">
+  <head>
+    <script src="/lib/angular.js"></script>
+    <style type="text/css">
+    .box {
+      border: 6px dotted pink;
+      background-color: red;
+      display: block;
+      width: 500px;
+      color: white;
+    }
+    </style>
+    <script>
+        angular
+          .module("myMod", [])
+          .controller("Ctrl", function($scope) {
+              $scope.foo = "bar";
+          })
+          .directive("greeting", function() {
+              return {
+                  scope: {
+                      name: "@"
+                  },
+                  template: "<p>Hello, {{ name }}!</p>",
+                  link: function(scope, el, attrs) {
+                      console.log(`I am in the link function for ${ scope.name }`);
+                    // debugger;
+                      el.addClass("box");
+                  }
+              };
+          })
+    </script>
+  </head>
+  <body ng-controller="Ctrl">
+      {{ foo }}
+      <greeting name="Rick"></greeting>
+      <greeting name="Sarah"></greeting>
+  </body>
+</html>
+

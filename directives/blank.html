@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+  <title>Angular's Hello World</title>
+  <script src="/lib/angular.js"></script>
+  <script type="text/javascript">
+    angular
+    .module("app", [])
+    .controller("ctrl", function($scope) { $scope.hello = "world"; })
+    .directive("exampleDirective", function(){
+
+    });
+  </script>
+</head>
+<body ng-controller="ctrl">
+  2 + 2 = {{ 2 + 2 }}
+</body>
+</html>

@@ -1,0 +1,32 @@
+<html>
+<head>
+  <script type="text/javascript" src="/lib/angular.1.5.js"></script>
+  <script type="text/javascript">
+    angular
+    .module("app", [])
+    .controller("ctrl", function($scope){
+      this.specialMessage = "Write only parent, read only child."
+    })
+    .component('modelDisplayer', {
+          bindings: {
+            oneWayBinding: "<"
+          },
+          controller: function() {
+
+          },
+          template: "<input ng-model='$ctrl.oneWayBinding'>"
+        });
+  </script>
+</head>
+<body ng-app="app">
+  <div ng-controller="ctrl as vm">
+    <h1>Inside Parent Controller:</h1>
+    <input ng-model="vm.specialMessage">
+    <hr>
+    <h1>Inside Directive:</h1>
+    <model-displayer one-way-binding="vm.specialMessage">
+    </model-displayer>
+  </div>
+</counter>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="/lib/angular.1.5.js"></script>
+  </head>
+  <body ng-app="demo" ng-controller="main as vm">
+    <script type="text/javascript">
+      var app = angular.module("demo", []);
+      var ctrl = app.controller("main", function($scope, $q) {
+        var value = {example: "example"};
+        // $q.when
+        var promise = $q.when(value);
+        promise
+          .then(function(val) {
+            console.log(val === value); // true
+            return val; // Wraps "value" in a new promise.
+          })
+          .then(function(nextVal) {
+            console.log(nextVal === undefined);
+            // Returns "undefined"
+          })
+          .then(function() {
+            // $q.reject() is also used to trigger .catch().
+            throw new Error("Exceptions are passed to catch()");
+          })
+          .then(function(){
+            console.log("This never gets called.")
+          })
+          .catch(function(error) {
+            // Recover from an error in a .catch();
+            console.log("Error has been fixed!");
+            return "Error has been fixed!";
+          })
+          .then(function(value){
+            // Returning a promise will halt the chain and keep things in order.
+            // Grab a reference to "pause the chain" and explicitly restart it
+            // from JS Console.
+            window.deferObj = $q.defer();
+            console.log("Call deferObj.resolve() to continue promise chain");
+            // This is a great example of how promises can wait on anything, even
+            // non-js events. Imagine a promise that gets fulfilled when a user
+            // finishes a step on a form.
+            return window.deferObj.promise;
+          })
+          .then(function(val){
+            console.log("Promise chain was continued!");
+            return "Goodbye";
+          })
+          .finally(function(message) {
+            // This gets called, regardless of Promise outcome status (.then / .catch)
+            console.log("Done with promise chain.");
+          })
+
+      });
+    </script>
+  </body>
+</html>

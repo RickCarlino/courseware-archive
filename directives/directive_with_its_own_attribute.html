@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+  <title>Angular's Hello World</title>
+  <script src="/lib/angular.js"></script>
+  <script type="text/javascript">
+    angular
+    .module("app", [])
+    .controller("ctrl", function($scope) {
+      $scope.personsName = "Rick Carlino";
+    })
+    .directive("exampleDirective", function(){
+      return {
+        scope: {
+          exampleDirective: "@"
+        },
+        template: "<strong>Hello, world!</strong>",
+        link: function(scope, el, attr) {
+          debugger;
+          scope.bindingValue = scope.bindingValue || 'not set';
+        }
+      }
+    });
+  </script>
+</head>
+<body ng-controller="ctrl">
+  <div example-directive="Wow!">
+  </div>
+  <hr>
+</body>
+</html>

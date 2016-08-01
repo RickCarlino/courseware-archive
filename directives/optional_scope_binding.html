@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+  <title>Angular's Hello World</title>
+  <script src="/lib/angular.js"></script>
+  <script type="text/javascript">
+    alert("This is intentionally broken. Fix it by adding a ? to the = binding.")
+    angular
+    .module("app", [])
+    .controller("ctrl", function($scope) {
+      $scope.exampleText = "really set this time.";
+    })
+    .directive("brokenDirective", function(){
+      return {
+        scope: {
+          bindingValue: "=?"
+        },
+        template: "<strong>Scope binding is {{ bindingValue }}.</strong>",
+        link: function(scope, el, attr) {
+          scope.bindingValue = scope.bindingValue || 'not set';
+        }
+      }
+    });
+  </script>
+</head>
+<body ng-controller="ctrl">
+  <broken-directive>
+  </broken-directive>
+  <hr>
+  <p>Experiments</p>
+  <ul>
+    <li>Change "=" to "=?" to silence the errors.</li>
+    <li>Add the `binding-value` attribute back (with an input / ng-model above)</li>
+  </ul>
+  <script type="text/javascript">
+  </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<html>
+
+<head>
+    <title></title>
+    <script type="text/javascript" src="/lib/angular.1.5.js"></script>
+    <script type="text/javascript" src="/lib/ui-router.js"></script>
+    <style>
+        .box {
+            border: 1px solid black;
+        }
+
+        .redbox {
+            border: 1px solid red;
+        }
+    </style>
+    <script type="text/javascript">
+    angular
+      .module("app", ["ui.router"])
+      .config(function($stateProvider, $urlRouterProvider) {
+        $stateProvider.state("main", {
+            url: "/",
+            templateUrl: "_main.html"
+        })
+        .state("main.secrets", {
+            url: "secrets",
+            templateUrl: "_main.secrets.html",
+            controller: "SecretController",
+            resolve: {
+                currentUser: function(Auth, $state) {
+                    return Auth.login();
+                }
+            }
+        })
+        .state("login", {
+            url: "/login",
+            templateUrl: "_login.html"
+        })
+        .state("notFound", {
+            url: "/404",
+            templateUrl: "_404.html"
+        })
+        // If they forgot the hash fragment...
+        $urlRouterProvider.when('', '/');
+        $urlRouterProvider.otherwise("/404");
+      })
+      .run(function($rootScope, $state, Auth) {
+          $rootScope.$on("$stateChangeError", function(event,
+                                                       toState,
+                                                       toParams,
+                                                        fromState,
+                                                        fromParams,
+                                                        error) {
+              if (error === Auth.BAD_LOGIN) {
+                  $state.go("login");
+              }
+          });
+      })
+      .controller("SecretController", function($scope, currentUser) {
+          debugger;
+      })
+      .service("Auth", function($q) {
+          function coinFlip() { return Math.round(Math.random()); }
+          this.BAD_LOGIN = new Error("Could not log in.");
+          this.login = function() {
+              var p = $q.defer();
+              if( coinFlip() ) {
+                  p.resolve({user: "Rick", token: "xyz"});
+              } else {
+                  p.reject(this.BAD_LOGIN);
+              }
+              return p.promise;
+          }
+      })
+  </script>
+</head>
+
+<body ng-app="app">
+    <div class="box">Fake Nav Bar</div>
+    <div class="box" ui-view></div>
+</body>
+
+</html>

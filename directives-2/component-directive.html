@@ -1,0 +1,32 @@
+<html>
+<head>
+  <script type="text/javascript" src="/lib/angular.1.5.js"></script>
+  <script type="text/javascript">
+    angular
+    .module("app", [])
+    .controller("ctrl", function($scope){
+      this.startingCount = 2;
+    })
+    .component('counter', {
+      bindings: {
+        count: '='
+      },
+      controller: function(){
+        this.up = function() { this.count++; };
+        this.down = function() { this.count-- };
+      },
+      template: function($element, $attrs){
+        // Dependency injection is OK here!
+        return "<div><button ng-click='$ctrl.up()'>+</button>{{ $ctrl.count }}<button ng-click='$ctrl.down()'>-</button></div>"
+      }
+    });
+  </script>
+</head>
+<body ng-app="app">
+  <div ng-controller="ctrl as vm">
+    <h1>Counter</h1>
+    <counter count="vm.startingCount">
+    </counter>
+  </div>
+</body>
+</html>

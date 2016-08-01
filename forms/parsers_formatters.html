@@ -1,0 +1,77 @@
+<html>
+  <head>
+  </head>
+  <body ng-app="myApp">
+    <div ng-controller="myCtrl">
+      <form name='xyzcorpForm' novalidate>
+        <div>
+          <label for="price">
+            Price
+          </label>
+          <input name="price" money ng-model="price" ng-blur="refresh()" >
+          <p>
+            {{ price || "Enter a value."}}
+          </p>
+        </div>
+      </form>
+      <pre>View Value: {{ xyzcorpForm.price.$viewValue }}</pre>
+      <pre>ngModel: {{ price }}</pre>
+      <pre>Model Value: {{ xyzcorpForm.price.$modelValue }}</pre>
+      <pre>Valid?: {{ xyzcorpForm.price.$valid ? "Yes" : "No" }}</pre>
+      <strong>Note:</strong><p>$formatters are only run when data is changed internally!</p>
+    </div>
+    <script src="/lib/angular.js">
+    </script>
+    <script>
+      var app = angular
+        .module("myApp", [])
+        .directive("money", function() {
+          return {
+            restrict: "A",
+            require: "ngModel",
+            link: function(scope, el, attrs, ngModel) {
+              ngModel.$parsers.push(function(value) {
+                value = value || "";
+                var price = parseFloat((""+value).replace(/[^\d.-]/g, ''));
+                if (price) {
+                  ngModel.$setValidity("money", true);
+                  return price;
+                } else {
+                  ngModel.$setValidity("money", false);
+                  return undefined;
+                }
+              });
+
+              // ngModel.$formatters.push(function(value) {
+              //   var formatted = ""+ (value || 0) + " US Dollars";
+              //   return formatted;
+              // });
+            }
+          }
+        })
+        .controller("myCtrl", function($scope) {
+          // $scope.refresh = function() {
+          //   // Ugly hack to trigger $formatters
+          //   // Formatter chain only runs when
+          //   // ngModel is *changed* *programmatically*.
+          //   // Form controls can't do that.
+          //   $scope.price = $scope.price + " ";
+          // }
+        })
+
+
+
+        // {{  "myString" | startsWith:"m" }}
+        .filter("startsWith", function() {
+          return function(inputString, query){
+            if (inputString.startsWith(query)) {
+              return inputString;
+            } else {
+              return "";
+            }
+          }
+        });
+
+    </script>
+  </body>
+</html>

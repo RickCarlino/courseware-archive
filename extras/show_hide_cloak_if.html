@@ -1,0 +1,32 @@
+<html>
+<head>
+  <title></title>
+  <script type="text/javascript" src="/lib/angular.1.5.js"></script>
+  <script type="text/javascript">
+  </script>
+<style>
+    .box {
+        border: 1px solid crimson;
+    }
+</style>
+</head>
+<body ng-app>
+    <h3>When are ng-show/ng-hide faster than ng-if?</h3>
+    <p>ng-show and ng-hide <i>might</i> be faster than ng-if in cases where initializing elements is more expensive than rendering them.</p>
+    <p> Example: putting an ng-controller in an ng-if will re-initialize the controller every time.</p>
+    <p>Like all performance optimizations, you will need to profile performance to prove that it actually improves performance for your use case. </p>
+    <label>
+        <input type="checkbox" ng-model="toggle">
+        Toggle visibility. ({{ toggle ? "ON" : "OFF" }})
+    </label>
+    <div class="box" ng-show="toggle">
+        This div uses "ng-show" (Uses display: none)
+    </div>
+    <div class="box" ng-hide="toggle">
+        This div uses "ng-hide" (Uses display: none)
+    </div>
+    <div class="box">
+        This div uses "ng-if" (Removes element from DOM)
+    </div>
+</body>
+</html>

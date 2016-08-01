@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<style>
+			input.ng-touched.ng-invalid {
+				border: 2px solid red;
+			}
+		</style>
+	</head>
+	<body ng-app="myApp">
+		<div ng-controller="myCtrl">
+			<form name='xyzcorpForm' novalidate> $scope.xyzcorpform
+				<div>
+					<label for="username">
+						Username:
+					</label>
+					<div ng-if="xyzcorpForm.$error.minlength">
+						Sorry, that's too short!
+					</div>
+				    <div ng-if="xyzcorpForm.$error.required">
+						Sorry, that's required!
+					</div>
+					<div ng-if="xyzcorpForm.$error.email">
+						Not a valid email
+					</div>
+					<label for="username">
+						Username
+					</label>
+					<input type="text"
+					       name="username"
+					       ng-model="username"
+					       ng-minlength="3"
+						   required>
+					       {{ myUsername }}
+				</div>
+				<div>
+					<label for="email">
+						Email
+					</label>
+
+					<input type="email" name="email" ng-model="email">
+				</div>
+			</form>
+			<pre>$scope.xyzcorpForm = </pre>
+			<pre>{{ xyzcorpForm | json }}</pre>
+		</div>
+		<script src="/lib/angular.js">
+		</script>
+		<script>
+			var app = angular
+			  .module("myApp", [])
+              .controller("myCtrl", function($scope){
+				$scope.truth = "2 + 2 = 4";
+				$scope.myUsername = "foo";
+
+			});
+		</script>
+	</body>
+</html>

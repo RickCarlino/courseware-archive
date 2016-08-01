@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<style type="text/css">
+		  input.ng-pristine {
+		  	border: 2px solid blue;
+		  }
+
+		  input.ng-invalid {
+		  	border: 2px solid red;
+		  }
+
+		  input.ng-valid {
+		  	border: 2px solid green;
+		  }
+		</style>
+	</head>
+	<body ng-app="myApp">
+		<div ng-controller="myCtrl">
+			<p>
+				Model validation and CSS.
+			</p>
+			<p>
+				Enter a <strong>valid</strong> email address!
+			</p>
+			<input type="email" ng-model='cssDemo'>
+		</div>
+		<script src="/lib/angular.js">
+		</script>
+		<script>
+
+			var app = angular
+			  .module("myApp", [])
+        .controller("myCtrl", function($scope){});
+		</script>
+	</body>
+</html>

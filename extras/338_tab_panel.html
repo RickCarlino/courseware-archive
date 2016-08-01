@@ -1,0 +1,62 @@
+<html>
+	<head>
+	</head>
+	<body ng-app="myApp">
+		<div ng-controller="myCtrl">
+			<xyzcorp-tab-group>
+				<xyzcorp-tab title="Clients">
+					<p>Many clients.</p>
+				</xyzcorp-tab>
+				<xyzcorp-tab title="Distributors">
+					<p>Lots of distributors.</p>
+				</xyzcorp-tab>
+			</xyzcorp-tab-group>
+		</div>
+
+		<script src="/lib/angular.js">
+		</script>
+
+
+		<script>
+			var app = angular
+			  .module("myApp", [])
+        .controller("myCtrl", function($scope){ })
+			  .directive("xyzcorpTabGroup", function(){
+				  return {
+					  transclude: true,
+					  scope: {},
+					  controller: function($scope) {
+						  $scope.tabs = [];
+						  // Why are we using 'this' and not '$scope'? See notes below.
+						  $scope.selectTab = function(tab) {
+							  $scope.tabs.forEach(function(t) { t.selected=false; })
+							  tab.selected = true
+						  }
+						  this.addTab = function(tab) {
+							  $scope.tabs.push(tab);
+							  $scope.selectTab(tab);
+						  };
+					  },
+					  template: "<ul><li ng-repeat='tab in tabs'><a href='#' ng-click='selectTab(tab)'>{{ tab.title }}</a></li></ul><p ng-transclude></p>"
+				  }
+			  })
+
+			  .directive("xyzcorpTab", function(){
+				  return {
+					  transclude: true,
+					  require: "^^xyzcorpTabGroup",
+					  scope: {title: "@"},
+					  link: function(scope, element, attrs, tabsCtrl) {
+						  tabsCtrl.addTab(scope);
+					  },
+					  template: "<span ng-show='selected' ng-transclude></span>"
+				  }
+			  })
+				// Why did I use `this`?
+				// See: http://stackoverflow.com/questions/11605917/this-vs-scope-in-angularjs-controllers
+				// 'this' is 'kind of' like a class.
+				// You don't have access to the $scope constructed from the scope constructed,
+				// but you DO have access to its constructor.
+		</script>
+	</body>
+</html>

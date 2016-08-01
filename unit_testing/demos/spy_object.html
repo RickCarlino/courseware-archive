@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/lib/jasmine.css">
+    <script src="/lib/jasmine.js"></script>
+    <script src="/lib/jasmine-html.js"></script>
+    <script src="/lib/jasmine-boot.js"></script>
+
+    <script>
+      var Calc = {
+        multiply: function(a, b) {
+          return (a * b);
+        },
+        triple: function(num) {
+          return this.multiply(num, 3);
+        }
+      }
+
+      describe("multiplication", function() {
+        it("triples a number", function() {
+          // REMEBER: We want to make sure that multiply() is used by triple()
+          spyOn(Calc, 'multiply'); // Calc['multiply']
+          Calc.triple(2);
+          expect(Calc.multiply).toHaveBeenCalledWith(2, 3);
+          // For our use case, we expect multiply() to be called exactly once.
+          expect(Calc.multiply.calls.count()).toEqual(1);
+        });
+
+        xit("fails on purpose to show spy labels", function() {
+          var user2 = {};
+          user2.load = jasmine.createSpy('with-the-label-placed-here');
+          expect(user2.load).toHaveBeenCalledWith(2, 3);
+        });
+
+      });
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
+

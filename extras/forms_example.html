@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body ng-app="myApp">
+  <div ng-controller="myController">
+    <form name="exampleForm" novalidate>
+      <label for="username">username:</label>
+      <input type="text" name="username" ng-model="username" minlength="4">
+    </form>
+    <pre>{{ exampleForm | json }}</pre>
+  </div>
+  <script src="bower_components/angular/angular.js"></script>
+  <script>
+    var myApp = angular.module("myApp", []);
+    myApp.controller("myController", ["$scope", function($scope){
+      $scope.name = "Parent";
+    }]);
+    
+    myApp.directive("transcluder", function(){
+      return {
+        template: "<h1 ng-transclude></h1>",
+        transclude: true,
+        restrict: "E",
+        scope: {},
+        link: function(scope, iElem, attrs) {
+          scope.name = "Child (in directive)"
+          // debugger;
+        }
+      }
+    });
+    
+  </script>
+</body>
+</html>

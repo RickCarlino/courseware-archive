@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+  <title>Angular's Hello World</title>
+  <script src="/lib/angular.js"></script>
+  <script type="text/javascript">
+    angular
+    .module("app", [])
+    .controller("ctrl", function($scope) { $scope.hello = "world"; })
+    .directive("myDir", function(){
+      return {
+        template: "<p>Hello," +
+                  "Angular!</p>"
+      }
+    })
+  </script>
+</head>
+<body ng-controller="ctrl">
+  <div my-dir></div>
+  <my-dir></my-dir>
+</body>
+</html>

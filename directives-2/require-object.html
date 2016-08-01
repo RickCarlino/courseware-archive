@@ -1,0 +1,26 @@
+<html>
+<head>
+  <script type="text/javascript" src="/lib/angular.1.5.js"></script>
+  <script type="text/javascript">
+    angular
+    .module("app", [])
+    .controller("ctrl", function($scope){
+    })
+    .component('formInspector', {
+          require: { inspectableForm: "^^form" },
+          template: "<pre>{{ $ctrl.inspectableForm | json }}</pre>"
+        });
+  </script>
+</head>
+<body ng-app="app">
+  <div ng-controller="ctrl as vm">
+    <form name="myForm">
+      <p>Email:</p>
+      <input type="email" name="email" ng-model="userEmail">
+      <form-inspector>
+      </form-inspector>
+    </form>
+  </div>
+</counter>
+</body>
+</html>

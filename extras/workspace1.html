@@ -1,0 +1,41 @@
+<html>
+
+<head>
+</head>
+
+<body ng-app="myApp">
+    <div ng-controller="myCtrl">
+        <div dir-a>
+            <div  dir-b></div>
+            <div  dir-b></div>
+            <div  dir-b></div>
+            <div  dir-b></div>
+        </div>
+    </div>
+    <script src="/lib/angular.js"></script>
+    <script src="/lib/angular-messages.js"></script>
+    <script>
+			var app = angular
+			  .module("myApp", ["ngMessages"])
+        .controller("myCtrl", function($scope) { })
+        .directive("dirA", function() {
+            return {
+                controller: function($scope) {
+                    this.children = [];
+                }
+            }
+        })
+        .directive("dirB", function() {
+            return {
+                require: "^^dirA",
+                scope: {},
+                link: function(scope,el,attrs,dirA) {
+                    dirA.children.push(scope);
+                    console.log(dirA.children);
+                }
+            }
+        });
+		</script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/bootstrap.css">
+  </head>
+  <body ng-app="myApp">
+    <div ng-controller="myCtrl">
+      <pre>
+        Does aa-property on aa-model evaluate to `true`?
+        <yes-no aa-model='whatever' aa-property="yes"></yes-no>
+      </pre>
+
+    </div>
+
+    <script src="/lib/angular.js"></script>
+    <script src="/angular-messages.js"></script>
+    <script src="/angular-resource.js"></script>
+
+    <script>
+      var app = angular
+        .module("myApp", ["ngMessages", "ngResource"])
+        .controller("myCtrl", function($scope){
+          $scope.whatever = {yes: "yes", no: false}
+        })
+        .directive( 'yesNo', function () {
+          return {
+            template : '<span class="glyphicon"></span>',
+            restrict: 'E',
+            scope: {
+              'aaModel' : '=',
+              'aaProperty' : '@'
+            },
+            link: function(scope, element, attrs) {
+              if (scope.aaModel[scope.aaProperty]) {
+                element.find('span' ).removeClass( 'glyphicon-remove' );
+                element.find('span' ).addClass( 'glyphicon-ok' );
+              } else {
+                element.find('span' ).removeClass( 'glyphicon-ok' );
+                element.find('span' ).addClass( 'glyphicon-remove' );
+              }
+            }
+          }
+        } );
+    </script>
+  </body>
+</html>
+

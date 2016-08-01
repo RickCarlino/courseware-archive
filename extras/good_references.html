@@ -1,0 +1,35 @@
+<html>
+  <head>
+  </head>
+  <body ng-app="myApp">
+    <div ng-controller="myCtrl">
+      My list in the parent : <pre>{{ list | json }}</pre>
+      My ul/li list:
+      <button ng-click="add()">
+        More Good References, Please!
+      </button>
+      <ul>
+        <li ng-repeat="number in list track by $index">
+          <input ng-model="number.val">{{ number }}
+        </li>
+      </ul>
+    </div>
+    <script src="/lib/angular.js"></script>
+    <script src="/angular-messages.js"></script>
+    <script src="/angular-resource.js"></script>
+    <script>
+      var app = angular
+        .module("myApp", ["ngMessages", "ngResource"])
+        .controller("myCtrl", function($scope){
+          $scope.list = [
+            {val: ":) :)"}
+          ];
+
+          $scope.add = function() {
+            $scope.list.push({val: ":) :)"})
+          };
+        });
+    </script>
+  </body>
+</html>
+

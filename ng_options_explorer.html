@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+  <title>Angular's Hello World</title>
+  <script src="/lib/angular.js"></script>
+  <script type="text/javascript">
+    angular
+    .module("app", [])
+    .controller("ctrl", function($scope) {
+      $scope.array = ["Rick", "Sally", "John", "Mike"];
+      $scope.object = {name: "Rick", id: 1}
+      $scope.collection = [
+        {name: "Rick", id: 1},
+        {name: "Sally", id: 2},
+        {name: "John", id: 3},
+        {name: "Mike", id: 4},
+      ];
+      $scope.expressions = [
+        {expression: "label for label in array", src: "array"},
+        {expression: "label for (index, label) in array track by index", src: "array"},
+        {expression: "person.name for person in collection", src: "collection"},
+        {expression: "person.name for person in collection track by person.id", src: "collection"},
+        {expression: "person.id as person.name for person in collection", src: "collection"},
+        {expression: "person.id as person.name for person in collection track by person.id", src: "collection"},
+      ];
+      $scope.grabValue = function($index) {
+        // QUICK HACK TO DEMONSTRATE CONCEPT.
+        // DONT DO THIS IN PRODUCTION.
+        return angular.element(document.querySelector("#dropdown" + $index)).val();
+      }
+    });
+  </script>
+</head>
+<body ng-controller="ctrl">
+<h1>Using ngOptions</h1>
+<table border="1">
+  <tr>
+    <td>Control</td>
+    <td>Expression</td>
+    <td>Value=</td>
+    <td>ng-model=</td>
+    <td>Source Data</td>
+  </tr>
+  <tr ng-repeat="example in expressions">
+    <td>
+      <select id="dropdown{{$index}}"
+              ng-model="selected[$index]"
+              ng-options="{{ example.expression }}"
+              ng-change="grabValue()">
+        <option value="">Default</option>
+      </select>
+    </td>
+    <td><pre>{{ example.expression }}</pre></td>
+    <td>{{ grabValue($index) || "Click form control first." }}</td>
+    <td>{{ (selected[$index] || null) | json  }}</td>
+    <td>{{ $parent[example.src] | json | limitTo:40 }}...</td>
+  </tr>
+</table>
+<ul>
+  <li><b>"as"</b>: Sets model (left) and value (right)</li>
+  <li><b>"()"</b>: Destructures object into key/value pairs. For arrays, that means item/index.</li>
+  <li><b>"track by"</b>: Explicitly set "value" attribute</li>
+  <li><b>"for"</b>: Sets local variable names in iteration (see next)</li>
+  <li><b>"in"</b>: Tell ng-options which collection to iterate over. "ITEM_VAR_NAME in COLLECTION"</li>
+  <li>"user.name for user in users" => "LABEL for NG_MODEL in COLLECTION"</li>
+  <li>Don't want ng-model as a object? "PRIMITIVE_NG_MODEL_VALUE as LABEL_VALUE for ITEM in COLLECTION"</li>
+  <li>"track by DESIRED_VALUE_ATTR"</li>
+</ul>
+<h1>ngRepeat</h1>
+<p>
+  ngOptions should be used instead of ngRepeat when you want the select model to be bound to a non-string value.
+</p>
+<table border="1">
+  <tr>
+    <td>Control</td>
+    <td>HTML code</td>
+  </tr>
+  <tr>
+    <td>
+        <select ng-model="data.repeatSelect">
+          <option ng-repeat="user in collection"
+                  value="{{user.id}}">{{user.name}}</option>
+        </select>
+    </td>
+    <td>
+      <xmp>
+        <select ng-model="data.repeatSelect">
+          <option ng-repeat="user in collection"
+                  value="{{user.id}}">{{user.name}}</option>
+        </select>
+      </xmp>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

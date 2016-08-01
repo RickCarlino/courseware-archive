@@ -1,0 +1,101 @@
+<html>
+  <head>
+    <!-- Include Angular UI-Grid CSS styling -->
+    <link rel="stylesheet" href="ui-grid.min.css" />
+    <!-- Include Angular.js core library -->
+    <script src="angular.js"></script>
+    <!-- Include Angular UI Grid, 3rd party library -->
+    <script src="ui-grid.min.js"></script>
+    <!-- Include Javascript Excel parser http://oss.sheetjs.com/js-xlsx -->
+    <script src="xlsx.full.min.js"></script>
+    <script>
+      // Build an "app" module, with angular UI-Grid as a hard dependency.
+      // Documentation: http://ui-grid.info/
+      angular.module('app', ['ui.grid'])
+      // Make a controller to hold the grid config options.
+      .controller('MainCtrl', ['$scope', function($scope) {
+        var vm = this;
+        // Reset `data` and `columnDefs` to empty (waiting for excel file)
+        // See full options here: http://ui-grid.info/docs/#/api/ui.grid.class:GridOptions
+        vm.reset = function () {
+          vm.gridOptions = {
+            data: [],
+            columnDefs: []
+          };
+        };
+        vm.reset();
+      }])
+
+      .directive("excelGridOptions", [function() {
+        return {
+          scope: {
+            // Pass in the same config object that Angular UI grid uses
+            // ($scope.gridOptions in this case).
+            excelGridOptions: '='
+          },
+
+          link: function(scope, element, attrs) {
+            // The "change" event signifies that the user has selected an XLS file.
+            element.on('change', function(changeEvent) {
+              // Learn Filereader API here: https://developer.mozilla.org/en-US/docs/Web/API/FileReader
+              var reader = new FileReader();
+              // Read the selected file as a binary string
+              reader.readAsBinaryString(changeEvent.target.files[0]);
+              // Callback to fire when the file finishes loading.
+              reader.onload = function(evt) {
+                // Start processing the file.
+                scope.$apply(function() {
+                  // This is the actual binary object:
+                  var binaryFile   = evt.target.result;
+                  // Feed it into the XLSX parser for conversion to native object.
+                  var workbook     = XLSX.read(binaryFile, {type: 'binary'});
+                  // Grab the name of first sheet in the excel workbook.
+                  var firstSheet   = workbook.SheetNames[0]
+                  // Grab the contents of the sheet
+                  var currentSheet = workbook.Sheets[firstSheet];
+                  // Convert the Excel object to JSON.
+                  var data         = XLSX.utils.sheet_to_json(currentSheet);
+                  // Assume that the first row are heading names.
+                  var headerNames  = Object.keys(data[0]);
+                  // Change the NgUIGrid options (remember: 2 way binding).
+                  scope.excelGridOptions.columnDefs = [];
+                  // After emptying the column definitions in the object...
+                  // ... iteratively add new column names from current sheet.
+                  headerNames.forEach(function(h) {
+                    scope.excelGridOptions.columnDefs.push({
+                      // Example: [{field: "item price"}, {field: "Stock no."}]
+                      field: h
+                    });
+                  });
+                  // Update the UI Grid data to reflect Excel data (JSON)
+                  scope.excelGridOptions.data = data;
+                  // Finally, clear the file out of the file selector button.
+                  // We don't need it anymore.
+                  element.val(null);
+                });
+              };
+
+            });
+          }
+        }
+      }]);
+    </script>
+    <style type="text/css">
+      /* Many users are reporting cell height issues.
+         This is a temporary work around. */
+      .ui-grid-top-panel {
+        height: 30px;
+      }
+    </style>
+  </head>
+  <body ng-app="app">
+    <div ng-controller="MainCtrl as vm">
+      <button ng-click="vm.reset()">Reset</button>
+      <input type="file"
+             accept=".xls,.xlsx"
+             excel-grid-options="vm.gridOptions"
+             multiple="false" />
+      <div id="grid1" ui-grid="vm.gridOptions"></div>
+    </div>
+  </body>
+</html>

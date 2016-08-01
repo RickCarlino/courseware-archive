@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+  <title>Angular's Hello World</title>
+  <script src="/lib/angular.js"></script>
+  <script type="text/javascript">
+    angular
+    .module("app", [])
+    .controller("ctrl", function($scope) { $scope.person = "Rick"; })
+    .directive("exampleDirective", function(){
+      return {
+        scope: false,
+        template: "<p>Hello, {{ person }}</p>"
+      }
+    });
+  </script>
+</head>
+<body ng-controller="ctrl">
+  <input ng-model="person">
+  <example-directive></example-directive>
+  <strong>Look at the scope in Batarang to see scope(s)</strong>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+  <title>Angular's Hello World</title>
+  <script src="/lib/angular.js"></script>
+  <script type="text/javascript">
+    angular
+    .module("app", [])
+    .controller("ctrl", function($scope) {
+      $scope.message = "This is on the controller"
+      $scope.hello = function() {
+        alert("Thanks for clicking!");
+      }
+    })
+    .directive("clickableButton", function(){
+      return {
+        scope: {
+          whenClicked: "&"
+        },
+        transclude: true,
+        template: "<button ng-transclude></button>",
+        link: function(scope, el, attrs) {
+          // Calls the function in the controller
+          debugger;
+          el.on("click", scope.whenClicked);
+        }
+      }
+    });
+  </script>
+</head>
+<body ng-controller="ctrl">
+  <h1>Ampersand Binding Example</h1>
+  <clickable-button when-clicked="hello()">
+    Click Me!
+  </clickable-button>
+</body>
+</html>

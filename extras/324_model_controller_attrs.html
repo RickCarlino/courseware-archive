@@ -1,0 +1,42 @@
+<html>
+	<head>
+		<style type="text/css">
+		  input.ng-pristine {
+		  	border: 2px solid green;
+		  }
+
+		  input.ng-invalid {
+		  	border: 2px solid red;
+		  }
+
+		  input.ng-valid {
+		  	border: 2px solid green;
+		  }
+		</style>
+	</head>
+	<body ng-app="myApp">
+		<div ng-controller="myCtrl">
+			<p>
+				Model validation and CSS.
+			</p>
+			<p>
+				Enter a <strong>valid</strong> email address!
+			</p>
+			<form name="example" novalidate>
+				<input type="email" name="email" ng-model='email'>
+				example.email.$dirty: {{ example.email.$dirty }}
+			</form>
+		</div>
+		<script src="/lib/angular.js">
+		</script>
+		<script>
+			var app = angular
+			  .module("myApp", [])
+        .controller("myCtrl", function($scope){
+        	$scope.setUntouched = function() {
+        		console.dir($scope.blah)
+        	}
+        });
+		</script>
+	</body>
+</html>

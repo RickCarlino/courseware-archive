@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+  <title>Angular's Hello World</title>
+  <script src="/lib/angular.js"></script>
+  <script type="text/javascript">
+    angular
+    .module("app", [])
+    .controller("ctrl", function($scope) { $scope.person = "Rick"; })
+    .directive("exampleDirective", function(){
+      return {
+        scope: true,
+        template: "<input ng-model='person'>Hello, {{ person }}"
+      }
+    });
+  </script>
+</head>
+  // scope 1 (root scope)
+<body ng-controller="ctrl">
+  <input ng-model="person"> // scope 2
+  <example-directive></example-directive> // scope 3
+  <strong>Look at the scope in Batarang to see scope(s)</strong>
+
+  <div ng-controller="foo">
+    <div ng-controller="bar">
+
+    </div>
+  </div>
+</body>
+</html>

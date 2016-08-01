@@ -1,0 +1,29 @@
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="/lib/style1.css">
+  <script src="lib/remark2.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+  function present() {
+    var HASH        = window.location.hash.substring(1);
+    var IS_PAGE_NUM = !!parseInt(HASH);
+    var FILE_PATH   = HASH + ".md";
+    var BASE_URL    = "/slides/";
+
+    if (IS_PAGE_NUM) {
+      var URL = sessionStorage["URL"];
+    } else {
+      var URL = BASE_URL + FILE_PATH;
+      sessionStorage["URL"] = URL;
+    }
+
+    remark.create({
+        ratio: "16:9",
+        sourceUrl: URL
+      });
+  }
+  window.onload = present;
+</script>
+</body>
+</html>

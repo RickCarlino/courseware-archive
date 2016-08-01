@@ -1,0 +1,39 @@
+<html>
+<head>
+  <title></title>
+  <script src="/lib/angular.js"></script>
+  <script>
+    angular
+      .module("app", [])
+      .value("value", {val: 123})
+      .constant("constant", {val: 456})
+      .controller("controllerOne", function($scope, value, constant){
+        constant.val = "Changed";
+        value.val = "Changed";
+        $scope.value = value;
+        $scope.constant = constant;
+      })
+      .controller("controllerTwo", function($scope, value, constant){
+        $scope.value = value;
+        $scope.constant = constant;
+      });
+  </script>
+</head>
+<body ng-app="app">
+  <div ng-controller="controllerOne">
+    Value: {{ value.val }}
+    Constant: {{ constant.val }}
+  </div>
+  <div ng-controller="controllerTwo">
+    Value: {{ value.val }}
+    Constant: {{ constant.val }}
+  </div>
+  <h1>Constant vs. Value</h1>
+  <ul>
+    <li>Constant can be injected at .config() time</li>
+    <li>Constant CANNOT be overridden by a $decorator</li>
+    <li>Values and constants CAN be changed at run time if they are an OBJECT.</li>
+    <li>Values and constants CAN'T be changed at run time if they are a PRIMITIVE.</li>
+  </ul>
+</body>
+</html>

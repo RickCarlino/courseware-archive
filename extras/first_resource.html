@@ -1,0 +1,41 @@
+<html>
+  <head>
+  </head>
+  <body ng-app="myApp">
+    <div ng-controller="myCtrl">
+      <ul>
+        <li ng-repeat="empl in employees">
+          <button ng-click="destroy(empl)">X</button>
+          {{ empl.name }}
+        </li>
+      </ul>
+    </div>
+    <script src="/lib/angular.js"></script>
+    <script src="/angular-messages.js"></script>
+    <script src="/angular-resource.js"></script>
+    <script>
+      var app = angular
+        .module("myApp", ["ngMessages", "ngResource"])
+        .controller("myCtrl", function($scope, employee) {
+          $scope.destroy = employee.destroy
+          $scope.employees = employee.all
+        })
+        .factory("employee", function($resource) {
+          var Employee = $resource('http://jsonplaceholder.typicode.com/users/:id', {id: '@id'});
+
+          Employee.destroy = function(empl) {
+            var promise = empl.$delete({id: empl.id})
+            promise.then(function(){
+                var index = $scope.employees.indexOf(empl);
+                $scope.employees.splice(index, 1);
+              })
+            return promise;
+          }
+
+          Employee.all = Employee.query();
+          return Employee
+        });
+    </script>
+  </body>
+</html>
+

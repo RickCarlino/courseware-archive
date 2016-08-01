@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/lib/bootstrap.css" rel="stylesheet" media="screen">
+    <script src="/lib/angular.js"></script>
+    <script src="/lib/ui-bootstrap.js"></script>
+    <script src="basic-setup.js"></script>
+  </head>
+  <body>
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+      <h1>Hello, UI Bootstrap!</h1>
+      <p>This is a simple setup page for Angular UI Bootstrap</p>
+      <p>Below is a <strong>uib-popover</strong> directive that comes with Angular UI Bootstrap by default.</p>
+      <button uib-popover="UI Bootstrap integrates Angular and Bootstrap."
+              popover-title="Hello, Bootstrap!"
+              type="button"
+              class="btn btn-default">
+        Click Here for a Pop Over!
+      </button>
+    </div>
+    <div class="col-md-4">
+    </div>
+  </body>
+</html>
