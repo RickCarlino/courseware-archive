@@ -1,12 +1,18 @@
 (function(angular){
   "use strict";
-  var tplString = "<form><label for='offenderName'>Offender Name:</label>"+
-                  "<input/></form>"
+
   angular
     .module('xyzcorpForms', [])
+    .service('DataValidator', function() {
+      this.validateFields = function(data) {
+        // 20 lines of business logic.
+        return true;
+      };
+    })
     .directive('xyzcorpExampleForm', function() {
       return {
-        template: tplString
+        template: "<form><label for='customerName'>Customer Name:</label>"+
+                  "<input/></form>"
       }
     });
 

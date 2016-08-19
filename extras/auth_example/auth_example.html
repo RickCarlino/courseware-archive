@@ -27,6 +27,7 @@
             controller: "SecretController",
             resolve: {
                 currentUser: function(Auth, $state) {
+                  // Forces UI router to wait for promise.
                     return Auth.login();
                 }
             }
@@ -56,6 +57,7 @@
           });
       })
       .controller("SecretController", function($scope, currentUser) {
+          console.log("Let's look at `currentUser`...");
           debugger;
       })
       .service("Auth", function($q) {

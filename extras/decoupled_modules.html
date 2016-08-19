@@ -1,10 +1,14 @@
 <html>
   <head>
   </head>
-  <body ng-app="xyzcorpApp" ng-strict-di>
+  <body ng-app="xyzcorpApp">
     <div ng-controller="main">
-
-      {{ greeting }}
+      <p>
+        {{ greeting }}
+      </p>
+      <p>
+        Your data {{ isValid ? "is" : "is not"}} valid.
+      </p>
       <span></span>
 
       <!-- Form is NOT defined in main app -->

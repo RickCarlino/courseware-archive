@@ -2,13 +2,33 @@
 <html>
   <head>
     <script type="text/javascript" src="lib/angular.1.5.js"></script>
-  </head>
-  <body ng-app="demo" ng-controller="main as vm">
     <script type="text/javascript">
-      var app = angular.module("demo", []);
-      var ctrl = app.controller("main", function($scope) {
-
-      });
+      angular
+        .module("demo", [])
+        .controller("main", function($scope) {
+          $scope.showMessage = function() {
+            alert("Hello, class!");
+          };
+        })
+        .directive("dscClick", function(){
+          return {
+            scope: {
+              dscClick: "&"
+            },
+            restrict: "A",
+            link: function(scope, el, attr) {
+              el.on("click", function(event) {
+                scope.dscClick({$event: event});
+              });
+            }
+          }
+        });
     </script>
+  </head>
+  <body ng-app="demo" ng-controller="main">
+    <h1>Directive Examples</h1>
+    <button dsc-click="showMessage($event)">
+      Click Me!
+    </button>
   </body>
 </html>

@@ -134,7 +134,7 @@ Console output:
 var username;
 
 $http.get(apiUrl).then(function(resp){
-  userName = resp.data.name
+  username = resp.data.name
 });
 // AVOID: Race condition
 console.log(username);
@@ -216,16 +216,22 @@ This is useful for any asynchronous operation (eg: form validation).
 
 ---
 
-## $q Example
+## $q Example (next slide)
 
 Scenario: You're writing an Angular library. You want to provide developers a clean `.then` / `.catch` syntax when using the library.
 
 Solution: Create a "deferred object" to control when a promise will fire.
 
-```javascript
-var deferred = $q.defer(); // Occurs in the future
-var salesOrder = deferred.promise; // Promise is "wrapped" by deferred object.
+---
 
+```javascript
+// INSIDE LIBRARY CODE:
+var deferred = $q.defer(); // Occurs in the future
+// Promise is "wrapped" by deferred  object.
+var salesOrder = deferred.promise;
+return salesOrder;
+
+// INSIDE APPLICATION/USER CODE:
 // Won't execute until the deferred object is rejected / resolved.
 salesOrder.then(function(order){
     // Update inventory / bookkeeping system...
@@ -250,10 +256,10 @@ This is how all promise based libraries operate internally. This technique is es
 var order = {orderNum: 123, confirmationCode: 456};
 
 //SCENARIO 1: Order completes
-salesOrder.resolve(order); // Pass order to pending .then() calls.
+deferred.resolve(order); // Pass order to pending .then() calls.
 
 //SCENARIO 2: Order failed
-salesOrder.reject("reason"); // Pass "reason" to pending .catch() calls.
+deferred.reject("reason"); // Pass "reason" to pending .catch() calls.
 ```
 
 Any value can be passed to `resolve` and `reject`. This value will be passed to all relevant `.then` or `.catch` calls.

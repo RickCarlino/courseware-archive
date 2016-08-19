@@ -1,0 +1,47 @@
+<html ng-app="app">
+<head>
+  <script src="/lib/angular.1.5.js"></script>
+  <script src="/lib/angular-route.js"></script>
+  <style type="text/css">
+  .red {
+    border: 2px solid red;
+    padding: 3px;
+    margin: 3px;
+  }
+  </style>
+  <script>
+    angular
+      .module("app", ["ngRoute"])
+      .config(function($routeProvider) {
+        var confObj = { // Splat params.
+            template: "<pre>{{ params | json }}</pre>",
+            controller: "Inspector"
+          };
+        $routeProvider
+          .when("/", {
+            template: "WELCOME!",
+          })
+          .when("/foo/unreachable/baz", {
+            template: "<pre> Unreachable route. </pre>",
+            controller: "Inspector"
+          })
+          .when("/foo/:bar*/baz", confObj)
+          .when("/foo/:bar?/baz", confObj)
+          .when("/error", {
+            template: "Unknown route!"
+          })
+          .otherwise("/error")
+      })
+      .controller("Inspector", function($scope, $routeParams) {
+        $scope.params = $routeParams;
+      });
+  </script>
+</head>
+<body>
+<h3>View Port Below...</h3>
+
+<div class="red" ng-view>
+
+</div>
+</body>
+</html>

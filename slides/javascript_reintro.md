@@ -84,7 +84,7 @@ var user1 = {};
 user1.email = "j@smith.com";
 
 // This is also an object with open ended properties.
-var user2 = function() { return console.log(this.email); };
+var user2 = function() { return console.log(user2.email); };
 user2.email = "j@johnson.com";
 
 // We can still access function properties like "normal" object props.
@@ -265,7 +265,7 @@ Example: A library that looks for the `angular` global variable will break if it
 
  * Some exercises in this course will use JavaScript "Strict Mode".
  * Strict mode is a subset of JavaScript that is less forgiving about bad practices.
-   * Ex: `this` becomes `undefined` instead of `window` in strict mode. 
+   * Ex: `this` becomes `undefined` instead of `window` in strict mode.
  * Using strict mode helps you write more reliable JavaScript by preventing common errors.
  * Example: `y = 123` (without a `var` keyword) will cause an exception in strict mode.
 .

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+  <link rel="stylesheet" href="/common/css/bootstrap/bootstrap.css" />
+  <link rel="stylesheet" href="/common/css/local/local.css" />
+  <script src="/common/js/angular/angular.js"></script>
+  <script type="text/javascript">
+    // Below is an empty "app" module and "ctrl" controller.
+    // They require no modification.
+    angular
+      .module("app", [])
+      .controller("ctrl", function($scope) {})
+    // Create a "blogArticle" directive
+    // The directive should conform to the <blog-article> interface shown below.
+      .directive("blogArticle", function(){
+        // Make sure the directive allows transclusion.
+        // It will also have two string attributes (isolated scope):
+        // "headline" and "author".
+        // The template should look like this:
+        // <div>
+        //   <h1> HEADLINE GOES HERE</h1>
+        //   <p> By: AUTHOR NAME HERE </p>
+        //   <hr />
+        //   <p> BLOG CONTENT HERE </p>
+        // </div>
+        // Here is an empty DDO to get you started:
+        return {
+          template: "<div></div>"
+        };
+      });
+  </script>
+</head>
+<body ng-controller="ctrl">
+  <!-- This is the interface that we want the directive to provide. -->
+  <!-- Implement a directive that can satisfy the example usage below -->
+  <blog-article author="Your Name Here"
+                headline="The blog title">
+  This is the blog content. It should be properly styled.
+  </blog-article>
+</body>
+</html>

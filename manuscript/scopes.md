@@ -2,7 +2,7 @@
 
  * Syncing data and UI is essential in Angular.
  * Angular maintains sync using a "Digest Cycle".
- * Scopes act as "view models" seen in other MVC architectures.
+ * Scopes act as "view models" seen in other MVVM architectures.
 
 ## Overview
 
@@ -37,7 +37,7 @@ Scope diagram, courtesy [Angular docs](https://docs.angularjs.org/guide/scope). 
 
 ![](images/scope_tree.png)
 
- Data stays in sync with the UI because of Scopes. 
+ Data stays in sync with the UI because of Scopes.
 
 ## Birth of a $scope
 
@@ -48,7 +48,7 @@ var parent = $scope;
 var child1 = $scope.$new();
 var child2 = $scope.$new();
 (child1.$parent === parent)      // true
-(child1.$$nextSibling == child2) // true
+(child1.$$nextSibling === child2) // true
 ```
 
 Angular keeps track of scope relations via prototypal inheritance and instance properties such as `$parent` and `$$nextSibling`.
@@ -140,7 +140,7 @@ $scope.$watchCollection(
  4. Fires listener functions if old and new values differ.
  3. The process continues until listeners stop firing ("digest stabilization").
 
- Without this, Angular has no way of knowing it needs to update the DOM or App state. 
+ Without this, Angular has no way of knowing it needs to update the DOM or App state.
 
 ## $scope.$apply()
 

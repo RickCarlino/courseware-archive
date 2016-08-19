@@ -293,7 +293,7 @@ Scopes/Exercises/scope-controller-as.html
 
 ---
 
-## Scopes Events
+## Scope Events
 
 The next portion will cover $scope events.
 
@@ -352,4 +352,3 @@ Scopes/Exercises/broadcast-emit.html
 
 ## Questions?
 
-With this information, we're ready to learn about scopes.

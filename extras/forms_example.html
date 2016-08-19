@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <head>
   <meta charset="utf-8">
+  <style type="text/css">
+  input.ng-touched.ng-invalid {
+    border: 4px solid red;
+  }
+  </style>
 </head>
 <body ng-app="myApp">
   <div ng-controller="myController">
     <form name="exampleForm" novalidate>
-      <label for="username">username:</label>
-      <input type="text" name="username" ng-model="username" minlength="4">
+      <p ng-if="exampleForm.$error.required && exampleForm.$dirty">
+        Please enter a username.
+      </p>
+
+      <p ng-if="exampleForm.$error.minlength && exampleForm.$dirty">
+        Please more than 3 characters.
+      </p>
+      <label>username:</label>
+      <input name="username"
+             ng-model="username"
+             required
+             ng-minlength="3"/>
     </form>
     <pre>{{ exampleForm | json }}</pre>
   </div>
-  <script src="bower_components/angular/angular.js"></script>
+  <script src="/lib/angular.1.5.js"></script>
   <script>
     var myApp = angular.module("myApp", []);
     myApp.controller("myController", ["$scope", function($scope){
-      $scope.name = "Parent";
     }]);
-    
-    myApp.directive("transcluder", function(){
-      return {
-        template: "<h1 ng-transclude></h1>",
-        transclude: true,
-        restrict: "E",
-        scope: {},
-        link: function(scope, iElem, attrs) {
-          scope.name = "Child (in directive)"
-          // debugger;
-        }
-      }
-    });
-    
   </script>
 </body>
 </html>

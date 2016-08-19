@@ -123,7 +123,7 @@ Not all services are available during the `config` phase.
    2. Constants cannot be changed by a `.decorator` (covered later).
    3. Aside from these differences, they are almost identical to `.values`.
  * The name might suggest immutability, but constants are not "constant" in the traditional sense.
- * A constant content (if an object) can actually be changed!
+ * A constant's content can actually be changed!
  * Conversely, a primitive value in either a value or constant cannot change!
 
 ---

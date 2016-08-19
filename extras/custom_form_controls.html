@@ -1,0 +1,48 @@
+<html ng-app="app">
+<head>
+    <script type="text/javascript" src="/lib/angular.1.5.js"></script>
+    <script type="text/javascript">
+      angular
+        .module("app", [])
+        .directive("stepper", function() {
+          return {
+            restrict: "E",
+            require: "ngModel",
+            template: `<div>
+              <button ng-click='up()'>+</button>
+                {{ $ctrl.count }}
+              <button ng-click='down()'>-</button>
+            </div>`,
+            link: function(scope, el, attrs, ngModel) {
+              // OTHER CUSTOM CONTROL IDEAS:
+              // - Map that creates lat/lng ngModel
+              // - Facebook friends list that sets friendId
+
+              scope.count = 0;
+
+              function save() {
+                ngModel.$setViewValue(scope.count);
+              };
+
+              scope.up = function() {
+                scope.count++;
+                save();
+              };
+
+              scope.down = function() {
+                scope.count--;
+                save();
+              };
+
+              ngModel.$render = save;
+            }
+          };
+        });
+    </script>
+</head>
+<body>
+  $scope.example = {{ example }}
+  <stepper ng-model="example">
+  </stepper>
+</body>
+</html>
