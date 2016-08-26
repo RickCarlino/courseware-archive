@@ -1,0 +1,41 @@
+<html ng-app="app">
+<head>
+    <style type="text/css">
+      .box {
+        border: 2px solid red;
+        margin: 2px;
+        padding: 2px;
+        font-size: 36px;
+      }
+    </style>
+    <script type="text/javascript" src="/lib/angular.1.5.js"></script>
+    <script type="text/javascript">
+      angular
+        .module("app", [])
+        .controller("MainCtrl", function($scope, $q) {
+            $scope.status = "Pending....";
+            var deferObj = $q.defer();
+            var promise = deferObj.promise;
+            promise
+              .then(function(value) {
+                $scope.status = "Promise is resolved with value " + value
+              })
+              .catch(function(value) {
+                $scope.status = "Promise is rejected with value " + value
+              })
+
+            $scope.resolve = function() { deferObj.resolve("'OK!'") };
+            $scope.reject = function() { deferObj.reject("'ERROR!'") };
+        });
+    </script>
+</head>
+<body ng-controller="MainCtrl">
+  <p>
+    <button ng-click="resolve()"><strong>Resolve</strong> Promise</button>
+    <button ng-click="reject()"><strong>Reject</strong> Promise</button>
+  </p>
+  <p class="box">
+    <strong>Promise Status:</strong> {{ status }}
+  </p>
+</body>
+</html>

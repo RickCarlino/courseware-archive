@@ -5,31 +5,56 @@
   input.ng-touched.ng-invalid {
     border: 4px solid red;
   }
+  .red{
+    display: inline-block;
+    padding: 2px;
+    margin: 2px;
+    border: 2px solid red;
+  }
   </style>
 </head>
 <body ng-app="myApp">
   <div ng-controller="myController">
-    <form name="exampleForm" novalidate>
-      <p ng-if="exampleForm.$error.required && exampleForm.$dirty">
-        Please enter a username.
-      </p>
-
-      <p ng-if="exampleForm.$error.minlength && exampleForm.$dirty">
-        Please more than 3 characters.
-      </p>
+    <p ng-if="exampleForm.username.$error.required">
+      Username is required
+    </p>
+    <p ng-if="exampleForm.email.$error.required">
+      Email is required
+    </p>
+    <form name="exampleForm" novalidate class="red">
       <label>username:</label>
-      <input name="username"
-             ng-model="username"
-             required
-             ng-minlength="3"/>
+      <div ng-model-options="{'getterSetter': true}">
+        <input name="username"
+               ng-model="username"
+               required/>
+        <label>email:</label>
+        <input name="email"
+               ng-model="email"
+               required/>
+
+      </div>
     </form>
-    <pre>{{ exampleForm | json }}</pre>
+    <pre><strong>$scope.exampleForm =</strong>
+         {{ exampleForm | json }}</pre>
   </div>
   <script src="/lib/angular.1.5.js"></script>
   <script>
     var myApp = angular.module("myApp", []);
-    myApp.controller("myController", ["$scope", function($scope){
-    }]);
+    myApp.controller("myController", function($scope){
+      var _value = "";
+      $scope.username = function(value) {
+        if(value || (value === "")) {
+          // Act as setter
+          console.log("IM A SETTER");
+          _value = value;
+          return _value;
+        } else {
+          // Act as getter
+          console.log("IM A GETTER")
+          return _value;
+        }
+      }
+    });
   </script>
 </body>
 </html>

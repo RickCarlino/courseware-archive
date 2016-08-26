@@ -26,7 +26,7 @@
             templateUrl: "_main.secrets.html",
             controller: "SecretController",
             resolve: {
-                currentUser: function(Auth, $state) {
+                currentUser: function(Auth) {
                   // Forces UI router to wait for promise.
                     return Auth.login();
                 }
@@ -64,13 +64,13 @@
           function coinFlip() { return Math.round(Math.random()); }
           this.BAD_LOGIN = new Error("Could not log in.");
           this.login = function() {
-              var p = $q.defer();
+              var d = $q.defer();
               if( coinFlip() ) {
-                  p.resolve({user: "Rick", token: "xyz"});
+                  d.resolve({user: "Rick", token: "xyz"});
               } else {
-                  p.reject(this.BAD_LOGIN);
+                  d.reject(this.BAD_LOGIN);
               }
-              return p.promise;
+              return d.promise;
           }
       })
   </script>

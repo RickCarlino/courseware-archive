@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<body ng-app="myApp">
+  <div ng-controller="myController">
+      <form ng-submit="save()">
+          <label>
+              Contents of "foo":
+          </label>
+          <input ng-model="payload.foo">
+          <label>
+              Contents of "bar":
+          </label>
+          <input ng-model="payload.bar">
+          <button>Save</button>
+      </form>
+      <pre>{{ payload | json }}</pre>
+      <ul>
+          <li ng-repeat="log in logs"> {{ log }} </li>
+      </ul>
+  </div>
+  <script src="/lib/angular.1.5.js"></script>
+  <script>
+    angular
+    .module("myApp", [])
+    .controller("myController", function($scope, $http){
+      var url = "http://api.myjson.com/bins/2b1pn";
+      $http.get(url).then(function(response){
+          $scope.payload = response.data;
+      });
+      $scope.save = function() {
+          $http
+            .put(url, $scope.payload)
+            .then(function(response) {
+                $scope.payload = response.data;
+            })
+      };
+    });
+  </script>
+</body>
+</html>
